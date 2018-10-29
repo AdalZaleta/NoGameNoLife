@@ -24,7 +24,10 @@ namespace webs
 			}
 			else if (Manager_Static.appManager.currentState == AppState.gameplay) 
 			{
-
+				if(Input.GetAxis("Horizontal") == 0.0f && Input.GetAxis("Vertical") == 0.0f) 
+				{
+					Manager_Static.controllerCharacter.MoveCharacter(0.0f, 0.0f);
+				}
 				if(Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f) 
 				{
 					Manager_Static.controllerCharacter.MoveCharacter(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));

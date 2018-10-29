@@ -33,6 +33,7 @@ namespace webs
 				}
 				camera.transform.localPosition = positionsCamera[actualPosCamera];
 				camera.transform.LookAt(Personaje.transform);
+				//Personaje.transform.Rotate(new Vector3(0, 90 * actualPosCamera, 0));
 			}
 			else
 			{
@@ -43,6 +44,7 @@ namespace webs
 				}
 				camera.transform.localPosition = positionsCamera[actualPosCamera];
 				camera.transform.LookAt(Personaje.transform);
+				//Personaje.transform.Rotate(new Vector3(0, 90 * actualPosCamera, 0));
 			}
 		}
 	}

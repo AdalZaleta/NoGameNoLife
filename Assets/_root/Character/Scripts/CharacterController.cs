@@ -7,7 +7,7 @@ namespace webs
 	public class CharacterController : MonoBehaviour {
 
 		public GameObject Personaje;
-		public Camera camera;
+		public Camera camara;
 		public float speedMove;
 
 		public Vector3[] positionsCamera;
@@ -31,8 +31,8 @@ namespace webs
 				{
 					actualPosCamera = 0;
 				}
-				camera.transform.localPosition = positionsCamera[actualPosCamera];
-				camera.transform.LookAt(Personaje.transform);
+				camara.transform.localPosition = positionsCamera[actualPosCamera];
+				camara.transform.LookAt(Personaje.transform);
 				//Personaje.transform.Rotate(new Vector3(0, 90 * actualPosCamera, 0));
 			}
 			else
@@ -42,8 +42,8 @@ namespace webs
 				{
 					actualPosCamera = 3;
 				}
-				camera.transform.localPosition = positionsCamera[actualPosCamera];
-				camera.transform.LookAt(Personaje.transform);
+				camara.transform.localPosition = positionsCamera[actualPosCamera];
+				camara.transform.LookAt(Personaje.transform);
 				//Personaje.transform.Rotate(new Vector3(0, 90 * actualPosCamera, 0));
 			}
 		}

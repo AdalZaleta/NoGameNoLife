@@ -10,7 +10,8 @@ namespace webs
 		gameplay,
 		pause_menu,
 		end_game,
-		credits
+		credits,
+		inventory,
 	}
 
 	public enum ControllerSide
@@ -24,6 +25,7 @@ namespace webs
 		public static Manager_Input inputManager;
 		public static Manager_App appManager;
 		public static Manager_Scene sceneManager;
+		public static Manager_UI uiManager;
 		public static CharacterController controllerCharacter;
 	}
 }

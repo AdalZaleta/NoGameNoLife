@@ -3970,7 +3970,7 @@ MonoBehaviour:
   secondsPerMinute: 60
   secondsPerHour: 0
   secondsPerDay: 0
-  timeMultiplier: 0.5
+  timeMultiplier: 2
 --- !u!108 &573984427
 Light:
   m_ObjectHideFlags: 0

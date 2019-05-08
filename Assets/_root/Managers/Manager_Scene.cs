@@ -27,6 +27,11 @@ namespace webs
 			SceneManager.LoadScene (_name);
 		}
 
+		public void LoadSceneName(int _id)
+		{
+			SceneManager.LoadScene (_id);
+		}
+
 		public void ExitApplication()
 		{
 			Application.Quit ();

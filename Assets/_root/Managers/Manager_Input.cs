@@ -62,6 +62,10 @@ namespace webs
 					if(!Input.GetKey(KeyCode.M))
 						Manager_Static.uiManager.ToggleMap(false);
 				}
+				if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0))
+				{
+					Manager_Static.controllerCharacter.JumpCharacter();
+				}
 			}
 			else if (Manager_Static.appManager.currentState == AppState.end_game) 
 			{

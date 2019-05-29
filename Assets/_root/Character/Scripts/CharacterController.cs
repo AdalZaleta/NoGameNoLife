@@ -9,6 +9,7 @@ namespace webs
 		public GameObject Personaje;
 		public Camera camara;
 		public float speedMove;
+		Rigidbody rg;
 
 		public Vector3[] positionsCamera;
 		int actualPosCamera = 0; 
@@ -17,9 +18,14 @@ namespace webs
 			Manager_Static.controllerCharacter = this;
 		}
 
+		void Start()
+		{
+			rg = Personaje.transform.GetComponent<Rigidbody>();
+		}
+
 		public void MoveCharacter(float _x, float _y)
 		{
-			Personaje.transform.GetComponent<Rigidbody>().velocity = new Vector3(_x * speedMove, 0, _y * speedMove);
+			rg.velocity = (Personaje.transform.forward * speedMove * _y ) + (Personaje.transform.right * speedMove * _x);
 		}
 
 		public void ChangeCameraPosition(int _dir)
@@ -31,8 +37,8 @@ namespace webs
 				{
 					actualPosCamera = 0;
 				}
-				camara.transform.localPosition = positionsCamera[actualPosCamera];
 				camara.transform.LookAt(Personaje.transform);
+				Personaje.transform.Rotate(Vector3.up, 90.0f);
 				//Personaje.transform.Rotate(new Vector3(0, 90 * actualPosCamera, 0));
 			}
 			else
@@ -42,10 +48,11 @@ namespace webs
 				{
 					actualPosCamera = 3;
 				}
-				camara.transform.localPosition = positionsCamera[actualPosCamera];
 				camara.transform.LookAt(Personaje.transform);
+				Personaje.transform.Rotate(Vector3.up, -90.0f);
 				//Personaje.transform.Rotate(new Vector3(0, 90 * actualPosCamera, 0));
 			}
+			Debug.Log("Pos Actual: " + actualPosCamera);
 		}
 	}
 }

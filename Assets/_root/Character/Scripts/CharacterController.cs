@@ -10,6 +10,8 @@ namespace webs
 		public Camera camara;
 		public float speedMove;
 		Rigidbody rg;
+		public float potecniaSalto;
+		private bool isHiting;
 
 		public Vector3[] positionsCamera;
 		int actualPosCamera = 0; 
@@ -25,7 +27,18 @@ namespace webs
 
 		public void MoveCharacter(float _x, float _y)
 		{
-			rg.velocity = (Personaje.transform.forward * speedMove * _y ) + (Personaje.transform.right * speedMove * _x);
+			rg.velocity = (Personaje.transform.forward * speedMove * _y ) + (Personaje.transform.right * speedMove * _x) + (Personaje.transform.up * rg.velocity.y);
+		}
+
+		public void JumpCharacter()
+		{
+			RaycastHit hit;
+			isHiting = Physics.Raycast(Personaje.transform.position, Personaje.transform.TransformDirection(Vector3.down), out hit, 1.1f);
+			Debug.Log("Entre a la funcion de salto");
+			if (isHiting) {
+				Debug.Log("Estoy dentro del IF");
+				Personaje.transform.GetComponent<Rigidbody>().velocity = Vector3.up * potecniaSalto;
+			}
 		}
 
 		public void ChangeCameraPosition(int _dir)

@@ -13,24 +13,24 @@ namespace webs
 		public float potecniaSalto;
 		private bool isHiting;
 
-		public Vector3[] positionsCamera;
+        public Vector3[] positionsCamera;
 		int actualPosCamera = 0; 
 
 		void Awake() {
 			Manager_Static.controllerCharacter = this;
-		}
+        }
 
 		void Start()
 		{
 			rg = Personaje.transform.GetComponent<Rigidbody>();
 		}
 
-		public void MoveCharacter(float _x, float _y)
+		public void MoveCharacter(Vector2 _move)
 		{
-			rg.velocity = (Personaje.transform.forward * speedMove * _y ) + (Personaje.transform.right * speedMove * _x) + (Personaje.transform.up * rg.velocity.y);
+			rg.velocity = (Personaje.transform.forward * speedMove * _move.y ) + (Personaje.transform.right * speedMove * _move.x) + (Personaje.transform.up * rg.velocity.y);
 		}
 
-		public void JumpCharacter()
+        public void JumpCharacter()
 		{
 			RaycastHit hit;
 			isHiting = Physics.Raycast(Personaje.transform.position, Personaje.transform.TransformDirection(Vector3.down), out hit, 1.1f);

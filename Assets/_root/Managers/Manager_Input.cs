@@ -9,9 +9,12 @@ namespace webs
 {
 	public class Manager_Input : MonoBehaviour {
 
-		bool D_VinUse = false;
-		bool D_HinUse = false;
         bool Inventory = false;
+        bool Jump = false;
+        bool Map = false;
+        bool rotateL = false;
+        bool rotateR = false;
+
         // The Rewired player id of this character
         public int playerId = 0;
         private Player player; // The Rewired Player
@@ -47,11 +50,11 @@ namespace webs
             else if (Manager_Static.appManager.currentState == AppState.gameplay)
             {
                 Manager_Static.controllerCharacter.MoveCharacter(moveVector);
-                if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton4))
+                if (rotateL)
                 {
                     Manager_Static.controllerCharacter.ChangeCameraPosition(1);
                 }
-                if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton5))
+                if (rotateR)
                 {
                     Manager_Static.controllerCharacter.ChangeCameraPosition(-1);
                 }
@@ -60,17 +63,15 @@ namespace webs
                     Manager_Static.uiManager.ToggleInventory(true);
                     Manager_Static.appManager.currentState = AppState.inventory;
                 }
-                if (Input.GetKey(KeyCode.M) || Input.GetAxis("D_Vertical") > 0.0f)
+                if (Map)
                 {
                     Manager_Static.uiManager.ToggleMap(true);
                 }
-                if (Input.GetAxis("D_Vertical") == 0.0f)
+                if (!Map)
                 {
-                    D_VinUse = false;
-                    if (!Input.GetKey(KeyCode.M))
-                        Manager_Static.uiManager.ToggleMap(false);
+                    Manager_Static.uiManager.ToggleMap(false);
                 }
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0))
+                if (Jump)
                 {
                     Manager_Static.controllerCharacter.JumpCharacter();
                 }
@@ -98,6 +99,10 @@ namespace webs
             moveVector.y = player.GetAxis("Move Vertical");
 
             Inventory = player.GetButtonDown("Inventory");
+            Jump = player.GetButtonDown("Jump");
+            Map = player.GetButtonSinglePressHold("Map");
+            rotateL = player.GetButtonDown("LRotate Camera");
+            rotateR = player.GetButtonDown("RRotate Camera");
         }
     }
 }

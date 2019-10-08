@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlantCure : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+[CreateAssetMenu(fileName = "PlantCure", menuName = "Plants/Cure", order = 2)]
 
-    // Update is called once per frame
-    void Update()
+public class PlantCure : PlantSO
+{
+    public int curePercent;
+
+    public override void Use(GameObject _target, int multiplier)
     {
-        
+        Debug.Log("Curing " + _target.name + " " + curePercent * multiplier + "%");
     }
 }

@@ -64,7 +64,7 @@ public class PlantInventory : MonoBehaviour
         {
             bool canCombo = true;
 
-            System.Type plantType = _plants[0].GetType();
+            System.Type plantType = _plants[0].GetType();   
 
             for (int i = 0; i < _plants.Count; i++)
             {

@@ -9,6 +9,8 @@ namespace webs
 {
 	public class Manager_Input : MonoBehaviour {
 
+        public CharacterMovement movement;
+
         bool Inventory = false;
         bool Jump = false;
         bool Map = false;
@@ -33,8 +35,13 @@ namespace webs
 		void Update()
 		{
             GetInput();
-            ProcessInput();
+            //ProcessInput();
 		}
+
+        private void FixedUpdate()
+        {
+            ProcessInput();
+        }
 
         private void ProcessInput()
         {
@@ -49,14 +56,23 @@ namespace webs
 
             else if (Manager_Static.appManager.currentState == AppState.gameplay)
             {
-                Manager_Static.controllerCharacter.MoveCharacter(moveVector);
+                movement.Move(moveVector.x, moveVector.y);
+
+                //Manager_Static.controllerCharacter.MoveCharacter(moveVector);
                 if (rotateL)
                 {
+                    movement.ChangeCameraPosition(1);
                     Manager_Static.controllerCharacter.ChangeCameraPosition(1);
                 }
                 if (rotateR)
                 {
+                    movement.ChangeCameraPosition(-1);
                     Manager_Static.controllerCharacter.ChangeCameraPosition(-1);
+                }
+                if (Jump)
+                {
+                    movement.Jump();
+                    //Manager_Static.controllerCharacter.JumpCharacter();
                 }
                 if (Inventory)
                 { 
@@ -71,10 +87,7 @@ namespace webs
                 {
                     Manager_Static.uiManager.ToggleMap(false);
                 }
-                if (Jump)
-                {
-                    Manager_Static.controllerCharacter.JumpCharacter();
-                }
+                
             }
             else if (Manager_Static.appManager.currentState == AppState.end_game)
             {

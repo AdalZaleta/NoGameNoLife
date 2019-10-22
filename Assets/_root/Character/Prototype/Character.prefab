@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 216355380843172828}
   - component: {fileID: 3272342130389487386}
   - component: {fileID: 7747694380284261565}
+  - component: {fileID: 6869982450209715544}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -45,11 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbffd2bdd52b385489085dd7022b218e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  positionsCamera: []
   topSpeed: 10
   acceleration: 15
   slowDown: 30
-  inAirSpeedModifier: 0
-  jumpForce: 5
+  inAirSpeedModifier: 0.5
+  airDrift: 1.6
+  jumpForce: 6
   gravityModifier: 1
 --- !u!54 &7747694380284261565
 Rigidbody:
@@ -67,6 +70,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &6869982450209715544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647858721126686884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40862de3c0990c241a2ce6406d661a7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Personaje: {fileID: 1647858721126686884}
+  camara: {fileID: 0}
+  speedMove: 0
+  potecniaSalto: 0
+  positionsCamera:
+  - {x: 0, y: 4, z: -7.75}
+  - {x: 7.75, y: 4, z: 0}
+  - {x: 0, y: 4, z: 7.75}
+  - {x: -7.75, y: 4, z: 0}
 --- !u!1 &2352856051913639616
 GameObject:
   m_ObjectHideFlags: 0

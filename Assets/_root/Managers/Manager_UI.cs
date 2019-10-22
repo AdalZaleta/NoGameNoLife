@@ -20,7 +20,7 @@ namespace webs
 
 		public void ToggleMap(bool _state)
 		{
-			mapCanvas.SetActive(_state);
+			mapCanvas?.SetActive(_state);
 		}
 	}
 }

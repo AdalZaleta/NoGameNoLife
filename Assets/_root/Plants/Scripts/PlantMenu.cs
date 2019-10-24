@@ -9,8 +9,10 @@ public class PlantMenu : MonoBehaviour
     public Transform plantBufferPanel;
     public GameObject plantItemPfb;
 
-    private List<PlantMenu_Item> plantItems = new List<PlantMenu_Item>();
-    private List<PlantMenu_Item> plantItemsBuffered = new List<PlantMenu_Item>();
+    [SerializeField]
+    public List<PlantMenu_Item> plantItems = new List<PlantMenu_Item>();
+    [SerializeField]
+    public List<PlantMenu_Item> plantItemsBuffered = new List<PlantMenu_Item>();
 
     public void FillPlantMenuItems()
     {
@@ -51,6 +53,10 @@ public class PlantMenu : MonoBehaviour
         }
         for (int i = 0; i < inventory.plantBuffer.Count; i++)
         {
+            Debug.Log("inv buffer count: " + inventory.plantBuffer.Count);
+            Debug.Log("Buffered " + i + "/" + plantItemsBuffered.Count);
+            Debug.Log("Plant: " + plantItemsBuffered[i]);
+
             plantItemsBuffered[i].SetIndex(i);
         }
     }

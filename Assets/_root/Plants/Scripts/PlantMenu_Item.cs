@@ -6,7 +6,7 @@ using TMPro;
 
 public class PlantMenu_Item : MonoBehaviour
 {
-    private int invIndex;
+    public int invIndex;
     private PlantMenu plantMenu;
     private Button btn;
     private bool buffered = false;

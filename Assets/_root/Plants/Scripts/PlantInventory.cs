@@ -39,7 +39,7 @@ public class PlantInventory : MonoBehaviour
     public void DebufferPlant(int _plantIndex)
     {
         plants.Add(plantBuffer[_plantIndex]);
-        plantBuffer.Remove(plants[_plantIndex]);
+        plantBuffer.Remove(plantBuffer[_plantIndex]);
     }
 
     public void DebufferPlant()

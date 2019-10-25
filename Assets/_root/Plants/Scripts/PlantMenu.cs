@@ -53,10 +53,6 @@ public class PlantMenu : MonoBehaviour
         }
         for (int i = 0; i < inventory.plantBuffer.Count; i++)
         {
-            Debug.Log("inv buffer count: " + inventory.plantBuffer.Count);
-            Debug.Log("Buffered " + i + "/" + plantItemsBuffered.Count);
-            Debug.Log("Plant: " + plantItemsBuffered[i]);
-
             plantItemsBuffered[i].SetIndex(i);
         }
     }

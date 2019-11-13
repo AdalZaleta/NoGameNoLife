@@ -116,7 +116,7 @@ public class CharacterMovement : MonoBehaviour {
         else
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(transform.position + new Vector3(_x, 0, _y), Vector3.up), 10f);
-            todo: // Hacer que rote con otra funcion o algo que si pueda  hacer que la rotación sea en el eje y
+            todo: //Hacer que no rote como cj
         }
     }
 

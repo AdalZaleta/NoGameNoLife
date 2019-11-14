@@ -81,11 +81,11 @@ namespace webs
                 }
                 if (Map)
                 {
-                    Manager_Static.uiManager.ToggleMap(true);
+                    Manager_Static.uiManager?.ToggleMap(true);
                 }
                 if (!Map)
                 {
-                    Manager_Static.uiManager.ToggleMap(false);
+                    Manager_Static.uiManager?.ToggleMap(false);
                 }
                 
             }

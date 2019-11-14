@@ -15,7 +15,7 @@ namespace webs
 
 		public void ToggleInventory(bool _state)
 		{
-			invetoryCanvas.SetActive(_state);
+			invetoryCanvas?.SetActive(_state);
 		}
 
 		public void ToggleMap(bool _state)

@@ -15,6 +15,7 @@ public class CharacterMovement : MonoBehaviour {
     public float slowDown = 20f;
     public float inAirSpeedModifier;
     public float airDrift;
+    public float airRotationSpeed;
     [Tooltip("™")]
     public float jumpForce = 5;
     public float gravityModifier = 1f;
@@ -109,14 +110,21 @@ public class CharacterMovement : MonoBehaviour {
     {
         rigi.angularVelocity = Vector3.zero; //Le quito la velocidad angular porque si no da vueltas solo
 
+        Vector3 dir = new Vector3(_x, 0, _y);
+
         if (isGrounded)
         {
-            transform.LookAt(transform.position + new Vector3(_x, 0, _y));
+            transform.LookAt(transform.position + dir);
         }
         else
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(transform.position + new Vector3(_x, 0, _y), Vector3.up), 10f);
-            todo: //Hacer que no rote como cj
+            if (Vector3.Dot(transform.forward, dir) < 0.9f)
+            {
+                float q = Vector3.Dot(transform.right, dir);
+                int mod = q > 0 ? 1 : -1;
+
+                transform.rotation = Quaternion.AngleAxis(mod * airRotationSpeed * Time.deltaTime, Vector3.up) * transform.rotation;
+            }
         }
     }
 

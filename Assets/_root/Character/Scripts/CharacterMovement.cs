@@ -58,7 +58,10 @@ public class CharacterMovement : MonoBehaviour {
         if (Mathf.Abs(_x) < float.Epsilon && Mathf.Abs(_y) < float.Epsilon) //Epsilon es casi igual a 0, pero comparar con esto evita problemas de redondeos de flotantes
         {
             //Si entra aquí, el jugador no se esta intentando mover
-            horizontalVelocity = rigi.velocity;//Usando los vectores de la camara + vectores de los axis para calcular la dirección final
+            horizontalVelocity = Vector3.Scale(rigi.velocity, Vector3.forward + Vector3.right);
+
+            if(isGrounded)
+                Rotate(horizontalVelocity.x, horizontalVelocity.z); //Función para que rote el jugador
 
             velChange = -1f * slowDown * modifier * Time.fixedDeltaTime;
         }
@@ -71,7 +74,7 @@ public class CharacterMovement : MonoBehaviour {
             velChange = acceleration * modifier * Time.fixedDeltaTime; //Se aumenta la velocidad dependiendo de cuanto tiempo se este moviendo, sin importa la dirección
         }
 
-        if(isGrounded)
+        if (isGrounded)
         {
             currentVel += velChange;
         }
@@ -123,7 +126,7 @@ public class CharacterMovement : MonoBehaviour {
                 float q = Vector3.Dot(transform.right, dir);
                 int mod = q > 0 ? 1 : -1;
 
-                transform.rotation = Quaternion.AngleAxis(mod * airRotationSpeed * Time.deltaTime, Vector3.up) * transform.rotation;
+                transform.rotation = Quaternion.AngleAxis(mod * airRotationSpeed * Time.fixedDeltaTime, Vector3.up) * transform.rotation;
             }
         }
     }

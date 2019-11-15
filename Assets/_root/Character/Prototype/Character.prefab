@@ -52,6 +52,7 @@ MonoBehaviour:
   slowDown: 30
   inAirSpeedModifier: 0.5
   airDrift: 1.6
+  airRotationSpeed: 100
   jumpForce: 6
   gravityModifier: 1
 --- !u!54 &7747694380284261565

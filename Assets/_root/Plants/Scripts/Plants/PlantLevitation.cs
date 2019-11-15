@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlantCure", menuName = "Plants/Levitation", order = 7)]
+[CreateAssetMenu(fileName = "PlantLeviation", menuName = "Plants/Levitation", order = 7)]
 
 public class PlantLevitation : PlantSO
 {

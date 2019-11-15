@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 506b8e4f462a3024da14eead92957753, type: 3}
-  m_Name: PlantStrengthFruit
+  m_Script: {fileID: 11500000, guid: e022d8b62759ced449d0b01439a12968, type: 3}
+  m_Name: PlantConfusionBelladone
   m_EditorClassIdentifier: 
-  plantName: Fruit
-  rarity: 10
-  plantSpr: {fileID: 21300000, guid: f183aceb94ac443438e82e75d1295f2e, type: 3}
-  strAmount: 100
+  plantName: Belladone
+  rarity: 15
+  plantSpr: {fileID: 21300000, guid: 6f07be6f02c9a5d47b8f05db7181f63e, type: 3}
+  effectDuration: 10

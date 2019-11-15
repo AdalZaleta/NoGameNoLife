@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlantReviveRose
   m_EditorClassIdentifier: 
   plantName: Undead Rose
-  rarity: 10
+  rarity: 15
   plantSpr: {fileID: 21300000, guid: cb636062451c6ce488625f166839fe4e, type: 3}
   charges: 3

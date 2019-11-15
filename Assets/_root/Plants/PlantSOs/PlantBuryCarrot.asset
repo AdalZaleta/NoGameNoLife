@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 506b8e4f462a3024da14eead92957753, type: 3}
-  m_Name: PlantStrengthFruit
+  m_Script: {fileID: 11500000, guid: af887bc0dc69a0c48bbcbbcaed55f0c1, type: 3}
+  m_Name: PlantBuryCarrot
   m_EditorClassIdentifier: 
-  plantName: Fruit
-  rarity: 10
-  plantSpr: {fileID: 21300000, guid: f183aceb94ac443438e82e75d1295f2e, type: 3}
-  strAmount: 100
+  plantName: Carrot
+  rarity: -99
+  plantSpr: {fileID: 21300000, guid: feb4a4349af64834fad0d5f54aa06eb4, type: 3}

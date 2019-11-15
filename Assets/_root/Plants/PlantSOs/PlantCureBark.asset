@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlantCureBark
   m_EditorClassIdentifier: 
   plantName: Bark
-  rarity: 1
+  rarity: 0
   plantSpr: {fileID: 21300000, guid: 4e51f013342c7ae47928acb30597151f, type: 3}
   curePercent: 10

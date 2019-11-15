@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 506b8e4f462a3024da14eead92957753, type: 3}
-  m_Name: PlantStrengthFruit
+  m_Script: {fileID: 11500000, guid: 42ce95a5415a364488801ed3b5e6d3fd, type: 3}
+  m_Name: PlantIceStalactite
   m_EditorClassIdentifier: 
-  plantName: Fruit
-  rarity: 10
-  plantSpr: {fileID: 21300000, guid: f183aceb94ac443438e82e75d1295f2e, type: 3}
-  strAmount: 100
+  plantName: Stalactite
+  rarity: -99
+  plantSpr: {fileID: 21300000, guid: f3c28240d06e18e4fa22ef35514eadf7, type: 3}
+  dmg: 10

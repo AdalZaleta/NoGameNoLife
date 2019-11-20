@@ -19,6 +19,8 @@ public class CharacterMovement : MonoBehaviour {
     [Tooltip("™")]
     public float jumpForce = 5;
     public float gravityModifier = 1f;
+    public Vector3 sphereCastCenter;
+    public float sphereCastRadius;
 
     private Player player; 
     private Rigidbody rigi;
@@ -41,6 +43,7 @@ public class CharacterMovement : MonoBehaviour {
         if (player.GetButtonDown("Jump"))
             Jump();*/
 
+        CheckGround();
         rigi.velocity += Physics.gravity * gravityModifier * Time.fixedDeltaTime;
     }
 
@@ -141,6 +144,17 @@ public class CharacterMovement : MonoBehaviour {
         isGrounded = false;
     }
 
+    void CheckGround()
+    {
+        RaycastHit hit;
+        if (Physics.SphereCast(transform.position + sphereCastCenter, sphereCastRadius, Vector3.down, out hit, sphereCastRadius))
+        {
+            string namae = hit.collider ? hit.collider.gameObject.name : "unknown";
+            Debug.Log(hit.normal + " " + namae);
+            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.blue);
+        }
+    }
+
     public void ChangeCameraPosition(int _dir)
     {
         if (_dir > 0)
@@ -166,6 +180,11 @@ public class CharacterMovement : MonoBehaviour {
         Debug.Log("Pos Actual: " + actualPosCamera);
     }
 
+    public void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position + sphereCastCenter, sphereCastRadius);
+    }
+
     public void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Floor"))
@@ -182,4 +201,5 @@ public class CharacterMovement : MonoBehaviour {
             Debug.Log("Stoped touching floor");
         }
     }
+
 }

@@ -6,13 +6,13 @@ using TMPro;
 
 public class PlantMenu_Item : MonoBehaviour
 {
-    public int invIndex;
+    public List<int> invIndex = new List<int>();
     private PlantMenu plantMenu;
     private Button btn;
     private bool buffered = false;
     public Image plantImg;
     public TextMeshProUGUI plantName;
-    public TextMeshProUGUI indexTxt;
+    private int ammount;
 
     private void Awake()
     {
@@ -22,17 +22,18 @@ public class PlantMenu_Item : MonoBehaviour
 
     public void SetPlantData(int _index, Sprite _spr, string _name, PlantMenu _menu)
     {
-        invIndex = _index;
+        invIndex.Clear();
+        invIndex[0] = _index;
         plantImg.sprite = _spr;
         plantName.text = _name;
         plantMenu = _menu;
-        indexTxt.text = invIndex.ToString();
+        ammount = invIndex.Count;
     }
 
-    public void SetIndex(int _index)
+    public void SetIndex(int _index, int _i)
     {
-        invIndex = _index;
-        indexTxt.text = invIndex.ToString();
+        if (_i < invIndex.Count)
+            invIndex[_i] = _index;
     }
 
     public void SetSprite(Sprite _spr)
@@ -56,6 +57,7 @@ public class PlantMenu_Item : MonoBehaviour
 
     public void Buffer()
     {
+        // TODO: Change Inventory to work with plant amounts instead of individually
         plantMenu.inventory.BufferPlant(invIndex);
         plantMenu.BufferPlant(this);
         buffered = true;

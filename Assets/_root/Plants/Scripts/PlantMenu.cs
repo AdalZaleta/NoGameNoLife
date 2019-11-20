@@ -24,6 +24,15 @@ public class PlantMenu : MonoBehaviour
         }
     }
 
+    public void CheckForPlantExistence()
+    {
+        foreach (Transform plant in plantPanel)
+        {
+            //if (plant.gameObject.GetComponent<PlantMenu_Item>())
+            TODO: Change Inventory to work with plant amounts instead of individually
+        }
+    }
+
     public void BufferPlant(PlantMenu_Item _plant)
     {
         plantItemsBuffered.Add(_plant);

@@ -55,8 +55,7 @@ namespace webs
             }
 
             else if (Manager_Static.appManager.currentState == AppState.gameplay)
-            {
-                movement.Move(moveVector.x, moveVector.y);
+            {   
 
                 //Manager_Static.controllerCharacter.MoveCharacter(moveVector);
                 if (rotateL)
@@ -87,7 +86,8 @@ namespace webs
                 {
                     Manager_Static.uiManager?.ToggleMap(false);
                 }
-                
+                movement.Move(moveVector.x, moveVector.y);
+
             }
             else if (Manager_Static.appManager.currentState == AppState.end_game)
             {

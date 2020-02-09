@@ -54,9 +54,13 @@ MonoBehaviour:
   inAirSpeedModifier: 0.5
   airDrift: 3
   airRotationSpeed: 250
+  sphereCastDistance: 0.1
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 17
   jumpForce: 6
   gravityModifier: 1
-  sphereCastCenter: {x: 0, y: -0.5, z: 0}
+  sphereCastCenter: {x: 0, y: -0.4, z: 0}
   sphereCastRadius: 0.5
 --- !u!54 &7747694380284261565
 Rigidbody:

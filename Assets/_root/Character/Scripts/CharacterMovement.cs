@@ -10,11 +10,15 @@ public class CharacterMovement : MonoBehaviour {
     CharacterController characterController;
     public Vector3[] positionsCamera;
     [Header("Settings")]
-    public float topSpeed = 10f;
-    public float acceleration = 15f;
-    public float slowDown = 20f;
+    public float topSpeed = 8f;
+    public float acceleration = 0.8f;
+    public float friction = 20f;
+    public float excessFriction = 30f;
     public float inAirSpeedModifier;
+    public float airAcceleration = 5f;
     public float airDrift;
+    public float airFriction;
+    public float airExcessFriction;
     public float airRotationSpeed;
     public float sphereCastDistance = 0.05f;
     public LayerMask groundCheckMask;
@@ -29,6 +33,7 @@ public class CharacterMovement : MonoBehaviour {
 
     private float currentVel = 0;
     private float currentAirVel = 0;
+    private Vector3 groundVel;
 
     [SerializeField] private bool isGrounded = true;
     private bool usedJump = false;
@@ -39,6 +44,11 @@ public class CharacterMovement : MonoBehaviour {
 
     private int actualPosCamera = 0;
 
+    [Header("Debug")]
+    public bool altMove = true;
+    public Vector3 altMoveVel;
+    public Vector3 gPos, pgPos, gVel;
+
     void Start()
     {
         rigi = GetComponent<Rigidbody>();
@@ -47,110 +57,111 @@ public class CharacterMovement : MonoBehaviour {
 
     void FixedUpdate()
     {
-        //Testing
-        /*Move(player.GetAxis("Move Horizontal"), player.GetAxis("Move Vertical"));
-        
-        if (player.GetButtonDown("Jump"))
-            Jump();*/
-
-        CheckGround();
+        CheckGround();  //TODO: hacer tooltips de variables, borrar las que no se usan.
+                        // Que se pegue al piso en las rampas, arreglar bug que no te puedes mover hasta que brinques
+                        // Que hacer con la velocidad vertical si se golpea en una esquina
         rigi.velocity += Physics.gravity * gravityModifier * Time.fixedDeltaTime;
     }
 
-    public void Move(float _x, float _y)
+    void Move(float _x, float _y)
     {
         Vector3 cameraForward = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up); //Vector de enfrente proyectado en un plano con normal (0,1,0)
         Vector3 cameraRight = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up); //Vector de derecha proyectado
 
         Vector3 verticalVelocity = Vector3.Scale(rigi.velocity, Vector3.up);
-        Vector3 horizontalVelocity = new Vector3();
+        Vector3 horizontalDir = new Vector3();
 
-        float modifier = !isGrounded ? inAirSpeedModifier : 1f;
+        //Checando que fricción es la que se debe de usar
+        float tempFriction = 0;
+        if(isGrounded)
+        {
+            if (currentVel > topSpeed)
+                tempFriction = excessFriction;
+            else
+                tempFriction = friction;
+        }
+        else
+        {
+            currentAirVel = Vector3.ProjectOnPlane(rigi.velocity, Vector3.up).magnitude; //Agarrando la velocidad actual como airVel, esto para mantener momento
+            if (currentAirVel > topSpeed)
+                tempFriction = airExcessFriction;
+            else
+                tempFriction = airFriction;
+        }
+
         float velChange = 0;
         bool notMoving = false;
         if (Mathf.Abs(_x) < float.Epsilon && Mathf.Abs(_y) < float.Epsilon) //Epsilon es casi igual a 0, pero comparar con esto evita problemas de redondeos de flotantes
         {
             //Si entra aquí, el jugador no se esta intentando mover
             notMoving = true;
-            horizontalVelocity = Vector3.Scale(rigi.velocity, Vector3.forward + Vector3.right);
-
-            /*if(isGrounded)
-                Rotate(horizontalVelocity.x, horizontalVelocity.z); //Función para que rote el jugador*/
-            
-            velChange = -1f * slowDown * modifier * Time.fixedDeltaTime;
+            horizontalDir = Vector3.ProjectOnPlane(rigi.velocity, groundNormal).normalized;
+            velChange = -1f * tempFriction * Time.fixedDeltaTime;
         }
         else
         {
-            horizontalVelocity = (cameraRight.normalized * _x + cameraForward.normalized * _y); //Usando los vectores de la camara + vectores de los axis para calcular la dirección final
+            horizontalDir = (cameraRight.normalized * _x + cameraForward.normalized * _y); //Usando los vectores de la camara + vectores de los axis para calcular la dirección final
+            Rotate(horizontalDir.x, horizontalDir.z); //Rotando al jugador en la dirección de el movimiento
+            horizontalDir = Vector3.ProjectOnPlane(horizontalDir, groundNormal).normalized; //Projectandolo despues de usarlo para rotar
 
-            Rotate(horizontalVelocity.x, horizontalVelocity.z); //Función para que rote el jugador
-
-            if (!isGrounded && rigi.velocity.magnitude > topSpeed) //Si esta en el aire y trae mucha velocidad
+            if(currentAirVel > topSpeed || currentVel > topSpeed)
             {
-                velChange = -1f * slowDown * modifier * Time.fixedDeltaTime;
+                //Se necesita bajar la velocidad con la fricción, tempFriction ya tiene el valor de la fricción adecuada
+                velChange = -1 * tempFriction * Time.fixedDeltaTime;
             }
             else
             {
-                velChange = acceleration * modifier * Time.fixedDeltaTime; //Se aumenta la velocidad dependiendo de cuanto tiempo se este moviendo, sin importa la dirección
+                float tempAccel = isGrounded ? acceleration : airAcceleration;
+                velChange = tempAccel * tempFriction * Time.fixedDeltaTime; //Se aumenta la velocidad dependiendo de cuanto tiempo se este moviendo, sin importa la dirección
             }
         }
-
-        float prevVel = currentVel;
-
+        
         if (isGrounded)
-        {
             currentVel += velChange;
-        }
         else
-        {
             currentAirVel += velChange;
-        }
 
-        //Clamping
-        currentVel = Mathf.Clamp(currentVel, 0, topSpeed);
-        //currentAirVel = Mathf.Clamp(currentAirVel, 0, topSpeed);
+        currentVel = Mathf.Max(currentVel, 0);
+        currentAirVel = Mathf.Max(currentAirVel, 0);
 
+        //Applying vel and accel
         if (isGrounded)
         {
-            Vector3 groundVel = Vector3.zero;
-            if(groundTransform)
+            groundVel = Vector3.zero;
+            if (groundTransform)
             {
+                gPos = groundTransform.position;
+                pgPos = prevGroundPos;
                 groundVel = (groundTransform.position - prevGroundPos) / Time.fixedDeltaTime;
+                gVel = groundVel;
             }
 
-            if (notMoving && currentVel == 0)
-            {
-                /*if(prevVel > 0)
-                {
-                    Debug.Log("It just stopped!!");
-                    groundPosOffset = transform.position - groundTransform.position;
-                }
-                Debug.Log("Should sit still");
-                transform.position = groundTransform.position + groundPosOffset;*/
-                rigi.velocity = Vector3.zero;
-            }
-            else
-            {
-                rigi.velocity = Vector3.ProjectOnPlane(horizontalVelocity, groundNormal).normalized * currentVel;
-            }
-
+            rigi.velocity = horizontalDir * currentVel;
+            
             //Añadiendole la velocidad de lo que este pisando
+            if(groundVel.magnitude == 0)
+            {
+                Debug.Log("GROUND VEL IS 0");
+            }
             rigi.velocity += groundVel;
-
-            Debug.Log("Velocity after grounded calc = " + rigi.velocity);
-            //Previa manera de aplicar velocidad
-            //rigi.velocity = (horizontalVelocity.normalized * currentVel) + verticalVelocity; //Aplico las velocidades
         }
         else
         {
-            Debug.Log("Vel on move before accel = " + rigi.velocity);
-            Vector3 horizontalAcceleration = horizontalVelocity.normalized * currentAirVel * airDrift * Time.fixedDeltaTime;
-            rigi.velocity = new Vector3(rigi.velocity.x + horizontalAcceleration.x, 0, rigi.velocity.z + horizontalAcceleration.z);
-            rigi.velocity = Vector3.ClampMagnitude(rigi.velocity, topSpeed);
-            rigi.velocity += Vector3.up * verticalVelocity.y;
+            //Cambio de velocidad si esta en el aire
+            Vector3 horizontalAcceleration = horizontalDir * airDrift * Time.fixedDeltaTime;
+            Vector3 horizontalVelocity = 
+                (Vector3.ProjectOnPlane(rigi.velocity, Vector3.up) + horizontalAcceleration).normalized * currentAirVel;
+            //La velocidad tope siempre decrese si es necesario, pero la dirección cambia segun horizontalAcceleration,
+
+            rigi.velocity = horizontalVelocity + verticalVelocity;
         }
 
-        prevGroundPos = groundTransform.position;
+        altMoveVel = rigi.velocity;
+
+        if (groundTransform)
+        {
+            prevGroundPos = groundTransform.position;
+        }
     }
 
     public void Rotate(float _x, float _y)
@@ -177,6 +188,25 @@ public class CharacterMovement : MonoBehaviour {
 
     public void Jump()
     {
+        if(altMove)
+        {
+            if(isGrounded)
+            {
+                Debug.Log("Velocity before jump = " + rigi.velocity);
+
+                rigi.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                usedJump = true;
+
+                Debug.Log("Velocity on jump = " + rigi.velocity);
+
+                //currentAirVel = rigi.velocity.magnitude; //Mantiene su momentum
+
+                isGrounded = false;
+                //Debug.Break();
+            }
+            return;
+        }
+
         if (isGrounded) //todo //Sacar el currentAirVel del if o cambiar como funciona el brinco completamente
         {
             Debug.Log("Velocity before jump = " + rigi.velocity);
@@ -246,7 +276,12 @@ public class CharacterMovement : MonoBehaviour {
     {
         //TODO: cambiar a que sea relativo a la normal del piso
         Debug.Log("Landing to " + _landNormal);
-        currentVel = Vector3.Scale(rigi.velocity, Vector3.forward + Vector3.right).magnitude;
+        Vector3 vel = rigi.velocity;
+        if(groundTransform)
+        {
+            vel -= groundVel;
+        }
+        currentVel = Vector3.ProjectOnPlane(vel, groundNormal).magnitude;
     }
 
     public void ChangeCameraPosition(int _dir)

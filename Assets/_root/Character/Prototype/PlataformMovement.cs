@@ -10,6 +10,7 @@ public class PlataformMovement : MonoBehaviour
 
     Rigidbody rigi;
     string action;
+    Vector3 vel;
 
     void Start()
     {
@@ -19,22 +20,31 @@ public class PlataformMovement : MonoBehaviour
         Go();
     }
 
+    void FixedUpdate()
+    {
+        rigi.velocity = vel;
+    }
+
     void Go()
     {
-        rigi.velocity = (b - a) / travelTime;
+        vel = (b - a) / travelTime;
+        rigi.velocity = vel;
         action = "Come";
         Invoke("Rest", travelTime);
     }
 
     void Come()
     {
-        rigi.velocity = (a - b) / travelTime;
+        vel = (a - b) / travelTime;
+        rigi.velocity = vel;
         action = "Go";
         Invoke("Rest", travelTime);
     }
 
     void Rest()
     {
+        vel = Vector3.zero;
+        rigi.velocity = vel;
         Invoke(action, restTime);
     }
 }

@@ -62,7 +62,11 @@ public class CharacterMovement : MonoBehaviour {
         CheckGround();  // TODO: hacer tooltips de variables, borrar las que no se usan.
                         // Arreglar bug que no te puedes mover hasta que brinques
                         // Que hacer con la velocidad vertical si se golpea en una esquina
-        rigi.velocity += Physics.gravity * gravityModifier * Time.fixedDeltaTime;
+
+        if (!isGrounded)
+        {
+            rigi.velocity += Physics.gravity * gravityModifier * Time.fixedDeltaTime;
+        }
     }
 
     public void Move(float _x, float _y)

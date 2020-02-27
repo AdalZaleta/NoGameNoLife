@@ -1,19 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 namespace webs
 {
 	public class CharacterController : MonoBehaviour {
 
 		public GameObject Personaje;
-		public Camera camara;
 		public float speedMove;
 		Rigidbody rg;
 		public float potecniaSalto;
 		private bool isHiting;
-
-        public Vector3[] positionsCamera;
+        public CinemachineVirtualCamera camera;
 		int actualPosCamera = 0; 
 
 		void Awake() {
@@ -50,8 +49,8 @@ namespace webs
 				{
 					actualPosCamera = 0;
 				}
-				camara.transform.LookAt(Personaje.transform);
-				Personaje.transform.Rotate(Vector3.up, 90.0f);
+				//camara.transform.LookAt(Personaje.transform);
+				Personaje.transform.Rotate(Vector3.up, -90.0f);
 				//Personaje.transform.Rotate(new Vector3(0, 90 * actualPosCamera, 0));
 			}
 			else
@@ -61,11 +60,12 @@ namespace webs
 				{
 					actualPosCamera = 3;
 				}
-				camara.transform.LookAt(Personaje.transform);
-				Personaje.transform.Rotate(Vector3.up, -90.0f);
+				//camara.transform.LookAt(Personaje.transform);
+				Personaje.transform.Rotate(Vector3.up, 90.0f);
 				//Personaje.transform.Rotate(new Vector3(0, 90 * actualPosCamera, 0));
 			}
 			Debug.Log("Pos Actual: " + actualPosCamera);
+            camera.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = actualPosCamera;
 		}
 	}
 }

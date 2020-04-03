@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using DSG;
 
 [CustomEditor(typeof(DialogueTree))]
 public class DialogueTreeEditor : Editor
@@ -12,9 +13,9 @@ public class DialogueTreeEditor : Editor
 
         DialogueTree s = (DialogueTree)target;
 
-        if(GUILayout.Button("Open in editor"))
+        if(GUILayout.Button("Edit"))
         {
-            DialogueSystemEditorWindow.Init(s);
+            DialogueSystemEditorWindow.Init(s);  
         }
     }
 }

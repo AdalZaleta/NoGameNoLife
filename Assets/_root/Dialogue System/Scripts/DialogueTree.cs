@@ -5,13 +5,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Dialogue Tree", menuName = "Dialogue System/Dialogue Tree")]
 public class DialogueTree : ScriptableObject
 {
-    List<DialogueNode> nodes;
+    [SerializeField] List<DialogueNode> nodes;
 
     DialogueNode currentNode;
 
     public DialogueTree()
     {
         nodes = new List<DialogueNode>();
+    }
+
+    public List<DialogueNode> Nodes
+    {
+        get { return nodes; }
+        private set { }
     }
 
     public void Start()

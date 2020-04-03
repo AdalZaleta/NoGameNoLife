@@ -57,7 +57,7 @@ public class DN_Text : DialogueNode
     #endregion
 
     #region Abstract class implementation
-    public override void NodeInterac(int _value)
+    public override void NodeInteract(int _value)
     {
         switch (state)
         {
